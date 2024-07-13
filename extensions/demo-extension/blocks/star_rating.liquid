@@ -1,0 +1,44 @@
+{% comment %} {% assign avg_rating = block.settings.product.metafields.demo.avg_rating.value | round %} {% endcomment %}
+<h2 style="color:{{ block.settings.colour }}">Metafield</h2>
+{% comment %}
+  {% if avg_rating >= 4 %}
+    <br>
+    <img src="{{ "thumbs-up.png" | asset_img_url: '15x' }}" height="15" width="15" loading="lazy">
+    {{ 'ratings.home.recommendationText' | t }}
+  {% endif %}
+{% endcomment %}
+
+{% if product.metafields.custom.status.value %}
+  <div style="color: #12E216">
+    <h3>{{ 'Product status: ' }}</h3>
+    <span> Trạng thái: </span> {{ product.metafields.custom.status.value }}
+  </div>
+{% endif %}
+{% if product.metafields.custom.published.value %}
+<div style="color: #12E216">
+  <h3>{{ 'Product published: ' }}</h3>
+  <span> Năm xuất bản: </span>
+  {% for item in product.metafields.custom.published.value -%}
+    {{ item }}
+  {%- endfor %}
+</div>
+{% endif %}
+{% if product.metafields.custom.description.value %}
+  <div style="color: #12E216">
+    <h3>{{ 'Product description: ' }}</h3>
+    {% for property in product.metafields.custom.description.value -%}
+      <div>{{ property.first | capitalize }}: {{ property.last }}</div>
+    {%- endfor %}
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Metafield",
+  "target": "section",
+  "settings": [
+    { "type": "product", "id": "product", "label": "product", "autofill": true },
+    { "type": "color", "id": "colour", "label": "Colour", "default": "#ff0000" }
+  ]
+}
+{% endschema %}
